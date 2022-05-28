@@ -1,59 +1,52 @@
-var arraynombre = [];
-var arrayapellido = [];
-var arraydireccion = [];
-var nombreconvertido = [];
-var apellidoconvertido = [];
-var direccionconvertida = [];
+var datosPersona = []
+var array_datos = []
+var datos = {}
+var contador = 1
 
-var leerinformacion = function(){
-    nombreconvertido = arraynombre
-    apellidoconvertido = arrayapellido
-    direccionconvertida = arraydireccion
-    nombreconvertido = JSON.parse(localStorage.getItem('arraynombre'))
-    apellidoconvertido = JSON.parse(localStorage.getItem('arrayapellido'))
-    direccionconvertida = JSON.parse(localStorage.getItem('arraydireccion'))
-    console.log(nombreconvertido)
-    console.log(apellidoconvertido)
-    console.log(direccionconvertida)
-    
-    document.getElementById('resultado').innerHTML =''
-    for (let i = 0; i <= nombreconvertido.length; i++) {
-        document.getElementById('resultado').innerHTML += '<tr><th scope="row">'+i+'</th><td>'+nombreconvertido[i] +'</td><td>'+apellidoconvertido[i]+'</td><td>'+direccionconvertida[i]+'</td><td  class="btn btn-danger" onclick="eliminar('+ i +')">Borrar</td></tr>'
+var leerdatos = function(){
+    array_datos = JSON.parse(localStorage.getItem('datosPersona'))
+    datosPersona = JSON.parse(localStorage.getItem('datosPersona'))
+    console.log(array_datos)
+    if (array_datos==null) {
+       array_datos = [];  
+    }
+    if (datosPersona==null) {
+        datosPersona = []  
+    }
 
-        
-    } 
-    
+    document.getElementById('registros').innerHTML = ''
+    for (let i = 0; i < array_datos.length; i++) {
+        contador= i+1
+        document.getElementById('registros').innerHTML += '<tr><td>'+ contador +'</td><td>'+array_datos[i].Fname+'</td><td>'+array_datos[i].Lname+'</td><td>'+array_datos[i].Address+'</td><td  class="btn btn-primary btn-sm btn-danger" onclick="eliminar('+ i +')">Borrar</td></tr>'
+          
+    }
 }
+
 var guardar = function(){
-    var datonombre = document.getElementById('fname').value
-    var datoapellido = document.getElementById('lname').value
-    var datodireccion = document.getElementById('address').value
-
-
-    console.log(datonombre)
-    arraynombre.push(datonombre)
-    arrayapellido.push(datoapellido)
-    arraydireccion.push(datodireccion)
-
-    localStorage.setItem('arraynombre',JSON.stringify(arraynombre))
-    localStorage.setItem('arrayapellido',JSON.stringify(arrayapellido))
-    localStorage.setItem('arraydireccion',JSON.stringify(arraydireccion))
-    leerinformacion()
+    var nombre = document.getElementById('nombre').value
+    console.log(nombre)
+    var apellido = document.getElementById('apellido').value
+    console.log(apellido)
+    var direccion = document.getElementById('direccion').value
+    console.log(direccion)
+    var datos = {
+        Fname: nombre,
+        Lname: apellido,
+        Address: direccion
+    }
+    datosPersona.push(datos)
+    localStorage.setItem('datosPersona',JSON.stringify(datosPersona))
+    leerdatos()
+  
    
 }
-
 var eliminar = function(indice){
     console.log(indice)
-    arraynombre.splice(indice,1)
-    arrayapellido.splice(indice,1)
-    arraydireccion.splice(indice,1)
-    localStorage.setItem('arraynombre',JSON.stringify(arraynombre))
-    localStorage.setItem('arrayapellido',JSON.stringify(arrayapellido))
-    localStorage.setItem('arraydireccion',JSON.stringify(arraydireccion))
-    leerinformacion()
+    datosPersona.splice(indice,1)
+    localStorage.setItem('datosPersona',JSON.stringify(datosPersona))
+    leerdatos()
 }
 
-//guardar()
+leerdatos()
 
-nombreconvertido =arraynombre
-leerinformacion()
+
